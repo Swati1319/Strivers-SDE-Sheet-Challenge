@@ -6,62 +6,67 @@ public class Solution
 
 {
 
-    static ArrayList<ArrayList<Integer>> list;
-
-    static ArrayList<Integer> list2;
-
-    static Set<String> set;
-
-    static void combinationSum(ArrayList<Integer> arr,int n,int idx,int sum,int target,String s){
-
-        if(sum==target){
-
-            if(!set.contains(s)){
-
-                set.add(s);
-
-                list.add(new ArrayList<>(list2));
-
-            }
-
-            
-
-            return;
-
-        }
-
-        if(idx>=n || sum>target)return ;
-
-        list2.add(arr.get(idx));
-
-        combinationSum(arr, n, idx+1, sum+arr.get(idx), target,s+arr.get(idx));
-
-        list2.remove(list2.size()-1);
-
-        combinationSum(arr, n, idx+1, sum, target,s);
-
-        return ;
-
-    }
-
     public static ArrayList<ArrayList<Integer>> combinationSum2(ArrayList<Integer> arr, int n, int target)
 
     {
 
-        //    Write your code here.
-
         Collections.sort(arr);
 
-        list=new ArrayList<>();
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
 
-        list2=new ArrayList<>();
+        ArrayList<Integer> inner = new ArrayList<>();
 
-        set=new HashSet<>();
+        func(arr, target, res, inner, 0);
 
-        combinationSum(arr,n,0,0,target,"");
+        return res;
 
-        return list;
+    }
 
+    public static void func(ArrayList<Integer> arr, int target, ArrayList<ArrayList<Integer>> res, ArrayList<Integer> inner, int ind)
+
+    {
+
+        
+
+          if(target == 0)
+
+          {
+
+               res.add(new ArrayList<>(inner));
+
+               return;
+
+          }  
+
+          for(int i=ind;i<arr.size();i++)
+
+          {
+
+            if( i > ind && arr.get(i) == arr.get(i-1) )
+
+            {
+
+               continue;
+
+            }
+
+            if (arr.get(i) > target) break;
+
+            if(arr.get(i) <= target )
+
+            {
+
+            
+
+            inner.add(arr.get(i));
+
+            func( arr, target - arr.get(i), res, inner, i+1);
+
+            inner.remove(inner.size()-1);
+
+            }
+
+          }  
     }
 
 }
